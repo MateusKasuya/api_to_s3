@@ -8,6 +8,7 @@ it to S3 in the bronze layer of the data lake.
 import sys
 import os
 from typing import NoReturn
+from datetime import date
 
 # Add the project root to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
@@ -57,7 +58,7 @@ def main() -> NoReturn:
         json_data = smartbetting.convert_to_json(data)
 
         # Upload JSON data to S3
-        s3_key = f"{catalog}/{schema}/{table}/{table}.json"
+        s3_key = f"{catalog}/{schema}/{table}/{table}_{date.today().strftime('%Y-%m-%d')}.json"
         smartbetting.upload_json_to_s3(json_data, bucket, s3_key)
 
         print(f"Successfully processed and uploaded {len(data)} teams to S3")
